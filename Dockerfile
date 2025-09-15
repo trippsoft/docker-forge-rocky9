@@ -32,6 +32,14 @@ RUN echo "forge:forge" | chpasswd
 
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 
+RUN mkdir -p /home/forge/.ssh
+RUN chmod 700 /home/forge/.ssh
+RUN chown forge:forge /home/forge/.ssh
+
+COPY ssh/authorized_keys /home/forge/.ssh/authorized_keys
+RUN chmod 600 /home/forge/.ssh/authorized_keys
+RUN chown forge:forge /home/forge/.ssh/authorized_keys
+
 EXPOSE 22
 
 CMD ["/usr/lib/systemd/systemd"]
